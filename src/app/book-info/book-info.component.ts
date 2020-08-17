@@ -24,7 +24,6 @@ export class BookInfoComponent implements OnInit, OnDestroy {
       if (this.ISBN) {
         this.store.select(BookState.getBooks).subscribe(data => {
           this.book = data.filter(i => i.ISBN === this.ISBN)[0];
-          console.log(this.book);
         });
       }
     });

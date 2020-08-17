@@ -37,12 +37,15 @@ export class BookState {
     @Action(AddRemoveBook)
     addBook(ctx: StateContext<BookStateModel>, action: AddRemoveBook) {
         const booksState = [...ctx.getState().books];
-        const checkIfExists = booksState.findIndex(b => b.ISBN === action.book.ISBN);
-        if (checkIfExists === -1) {
+        const checkIfExistsInBookState = booksState.findIndex(b => b.ISBN === action.book.ISBN);
+        if (action.book.ISBN === ctx.getState().booksForLater?.ISBN) {
+            ctx.getState().booksForLater = null;
+        }
+        if (checkIfExistsInBookState === -1) {
             booksState.push(action.book);
         }
         else {
-            booksState.splice(checkIfExists, 1);
+            booksState.splice(checkIfExistsInBookState, 1);
         }
         ctx.patchState({
             books: booksState

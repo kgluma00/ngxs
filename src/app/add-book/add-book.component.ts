@@ -1,32 +1,35 @@
-import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngxs/store';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Store, Select } from '@ngxs/store';
 import { AddRemoveBook, SaveBookForLater } from '../actions/actions';
 import { Book } from '../models/book';
-import { Observable } from 'rxjs';
-import { BookState } from '../states/book.state';
+import { Observable, Subscription } from 'rxjs';
+import { BookState, BookStateModel } from '../states/book.state';
+import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-book',
   templateUrl: './add-book.component.html',
   styleUrls: ['./add-book.component.scss']
 })
-export class AddBookComponent implements OnInit {
+export class AddBookComponent implements OnInit, OnDestroy {
 
-  constructor(private store: Store) { }
   book: Book = { name: '', DateOfRelease: '', ISBN: '' };
-  savedBook: Book;
-  submitted: boolean;
+  subs: Subscription;
+  constructor(private store: Store, private route: Router) { }
 
-
-  ngOnInit(): void {
-    this.store.select(BookState.getSavedBooks).subscribe(data => {
-      this.savedBook = data;
-    });
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 
-  get diagnostic() { return JSON.stringify(this.book); }
-
-  onSubmit() { this.submitted = true; }
+  ngOnInit(): void {
+    this.subs = this.store.select(BookState.getSavedBooks).subscribe(data => {
+      console.log('Data: ', data);
+      if (data) {
+        this.book = data;
+      }
+    });
+  }
 
   AddRemoveBook(name: string, isbn: string, dateOfRelease: string) {
     this.store.dispatch(new AddRemoveBook({ name, ISBN: isbn, DateOfRelease: dateOfRelease }));
@@ -34,5 +37,6 @@ export class AddBookComponent implements OnInit {
 
   SaveBookForLater(name: string, isbn: string, dateOfRelease: string) {
     this.store.dispatch(new SaveBookForLater({ name, ISBN: isbn, DateOfRelease: dateOfRelease }));
+    this.route.navigate(['/book-list']);
   }
 }

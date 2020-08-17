@@ -3,6 +3,7 @@ import { ApiService } from './api.service';
 import { Store } from '@ngxs/store';
 import { AddRemoveBook } from './actions/actions';
 import { Book } from './models/book';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +19,7 @@ export class AppComponent implements OnInit {
   }
 
   CallApi() {
-    this.bookService.getBook().subscribe(d => {
+    this.bookService.getBook().pipe(take(1)).subscribe(d => {
       const book: Book = d;
       this.store.dispatch(new AddRemoveBook({ name: book.name, ISBN: book.ISBN, DateOfRelease: book.DateOfRelease }));
     });
