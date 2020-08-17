@@ -1,0 +1,13 @@
+<div class="container bg-light text-dark">
+    <div class="row m-2 p-4">
+        <div class="col">
+            <ul class="list-group justify-content-between" *ngFor="let book of books$ |async">
+                <li class="list-group-item"><a class="button"
+                        (click)="AddRemoveBook(book.name, book.ISBN, book.DateOfRelease)">{{book.name}} - {{book.ISBN}}
+                        - {{book.DateOfRelease}}</a>
+                    <a class="btn btn-info float-right text-white" [routerLink]="['/book-info',book.ISBN]">Info</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
