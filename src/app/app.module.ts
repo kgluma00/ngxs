@@ -11,17 +11,21 @@ import { BookState } from './states/book.state';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { AddBookComponent } from './add-book/add-book.component';
 import { BookInfoComponent } from './book-info/book-info.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { UserInfoComponent } from './user-info/user-info.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AddBookComponent,
     BooksListComponent,
-    BookInfoComponent
+    BookInfoComponent,
+    UserInfoComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     NgxsModule.forRoot([
       BookState
     ]),
@@ -30,6 +34,7 @@ import { BookInfoComponent } from './book-info/book-info.component';
       { path: 'book-list', component: BooksListComponent },
       { path: 'add-book', component: AddBookComponent },
       { path: 'book-info/:ISBN', component: BookInfoComponent },
+      { path: 'user-info', component: UserInfoComponent },
       { path: '', redirectTo: '/book-list', pathMatch: 'full' },
     ])
   ],
