@@ -1,14 +1,14 @@
-/* You can add global styles to this file, and also import other style files */
-.ng-valid[required],
-.ng-valid.required {
-    border-left: 5px solid #42a948; /* green */
-}
-
-.ng-invalid:not(form) {
-    border-left: 5px solid #a94442; /* red */
+@import "@angular/material/prebuilt-themes/purple-green.css";
+html,
+body {
+    height: 100%;
 }
 
 html,
 body {
     height: 100%;
+}
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
 }

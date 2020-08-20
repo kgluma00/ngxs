@@ -24,7 +24,6 @@ export class AddBookComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subs = this.store.select(BookState.getSavedBooks).subscribe(data => {
-      console.log('Data: ', data);
       if (data) {
         this.book = data;
       }

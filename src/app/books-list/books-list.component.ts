@@ -23,14 +23,9 @@ export class BooksListComponent implements OnInit {
     this.store.select(BookState.getSavedBooks).subscribe(data => {
       this.savedBook = data;
     });
-    console.log('Saved books', this.savedBook);
   }
 
   AddRemoveBook(name: string, isbn: string, dateOfRelease: string) {
     this.store.dispatch(new AddRemoveBook({ name, ISBN: isbn, DateOfRelease: dateOfRelease }));
-  }
-
-  bookInfo(bookName: string) {
-    console.log('bookName: ', bookName);
   }
 }
