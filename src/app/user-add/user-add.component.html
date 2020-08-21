@@ -1,0 +1,33 @@
+<div class="container my-background text-white mt-4">
+    <div class="row m-2 p-4">
+        <div class="col">
+            <form [formGroup]="profileForm" class="">
+                <mat-vertical-stepper linear>
+                    <mat-step label="Your ID number" [completed]="profileForm.value.id">
+                        <div class="form-group">
+                            <input type="number" class="form-control" id="id" aria-describedby="id"
+                                placeholder="Enter id" formControlName="id">
+                        </div>
+                    </mat-step>
+                    <mat-step label="Username" [completed]="profileForm.value.username">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="firstusernamename" placeholder="User name"
+                                formControlName="username">
+                        </div>
+                    </mat-step>
+                    <mat-step label="Nick name" [completed]="profileForm.value.nickname">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="nickname" placeholder="Nick name"
+                                formControlName="nickname">
+                        </div>
+                        <div>
+                            <button type="button" [disabled]="!profileForm.valid" (click)="onSubmit()"
+                                class="btn btn-warning text-white">Save
+                                User</button>
+                        </div>
+                    </mat-step>
+                </mat-vertical-stepper>
+            </form>
+        </div>
+    </div>
+</div>

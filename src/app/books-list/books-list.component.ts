@@ -14,15 +14,11 @@ import { ApiService } from '../api.service';
 export class BooksListComponent implements OnInit {
 
   books$: Observable<Book[]>;
-  savedBook: Book;
 
   constructor(private store: Store) { }
 
   ngOnInit(): void {
     this.books$ = this.store.select(BookState.getBooks);
-    this.store.select(BookState.getSavedBooks).subscribe(data => {
-      this.savedBook = data;
-    });
   }
 
   AddRemoveBook(name: string, isbn: string, dateOfRelease: string) {

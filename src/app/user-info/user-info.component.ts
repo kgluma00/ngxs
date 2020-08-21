@@ -1,34 +1,36 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Store, Selector } from '@ngxs/store';
-import { AddRemoveUser } from '../actions/actions';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { User } from '../models/User';
+import { ActivatedRoute } from '@angular/router';
+import { Store } from '@ngxs/store';
+import { UserState } from '../states/user.state';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-user-info',
   templateUrl: './user-info.component.html',
   styleUrls: ['./user-info.component.scss']
 })
-export class UserInfoComponent implements OnInit {
+export class UserInfoComponent implements OnInit, OnDestroy {
 
-  profileForm = this.fb.group({
-    username: ['', Validators.required],
-    id: ['', Validators.required],
-    nickname: ['', Validators.required]
-  });
+  id: number;
+  private sub: any;
+  User: User;
 
-  constructor(private fb: FormBuilder, private store: Store) { }
+  constructor(private route: ActivatedRoute, private store: Store) { }
 
   ngOnInit(): void {
+    this.sub = this.route.params.subscribe(params => {
+      this.id = params.id;
+      if (this.id) {
+        this.store.select(UserState.getUser).pipe(map(filter => filter(this.id))).subscribe(data => {
+          this.User = data;
+        });
+      }
+    });
   }
 
-  onSubmit() {
-    console.warn(this.profileForm.value);
-
-    this.store.dispatch(new AddRemoveUser({
-      username: this.profileForm.value.username,
-      nickname: this.profileForm.value.nickname,
-      id: this.profileForm.value.id
-    }));
-
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
+
 }

@@ -25,12 +25,19 @@ export class UserState {
         return user.users;
     }
 
+    @Selector()
+    static getUser(user: UserStateModel) {
+        return (id: number) => {
+            return user.users.find(i => i.id === +id);
+        };
+    }
+
     @Action(AddRemoveUser)
     addBook(ctx: StateContext<UserStateModel>, action: AddRemoveUser) {
         const usersState = [...ctx.getState().users];
-        const checkIfExists = usersState.some(p => p.id === action.user.id);
-        if (checkIfExists) {
-            usersState.filter(u => u !== action.user);
+        const indexOfUser = usersState.findIndex(p => p.id === action.user.id);
+        if (indexOfUser !== -1) {
+            usersState.splice(indexOfUser, 1);
         }
         else {
             usersState.push(action.user);
